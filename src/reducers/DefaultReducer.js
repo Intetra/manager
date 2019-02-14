@@ -1,8 +1,8 @@
 export default (state = null, action) => {
   switch (action.type) {
-    case 'Default':
-      return action.payload;
+    case 'default_reducer':
+      return action.payload
     default:
-      return state;
+      return state
   }
-};
+}
