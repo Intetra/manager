@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
+import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { emailChanged, passwordChanged } from '../actions'
-import { Card, CardSection, Input, Button } from './common'
+import { emailChanged, passwordChanged, loginUser } from '../actions'
+import { Card, CardSection, Input, Button, Spinner } from './common'
 
 class LoginForm extends Component {
-  componentWillUpdate() {
-    pass
-  }
 
   onEmailChange(text) {
     this.props.emailChanged(text)
@@ -14,6 +12,37 @@ class LoginForm extends Component {
 
   onPasswordChange(text) {
     this.props.passwordChanged(text)
+  }
+
+  onButtonPress() {
+    const { email, password } = this.props
+    this.props.loginUser({ email, password })
+  }
+
+  renderError() {
+    if (this.props.error) {
+      return (
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={styles.errorTextStyle}>
+            {this.props.error}
+          </Text>
+        </View>
+      )
+    }
+  }
+
+  renderButton() {
+    if (this.props.loading) {
+      return (
+        <Spinner />
+      )
+    } else {
+      return (
+        <Button onPress={this.onButtonPress.bind(this)}>
+          Log In
+        </Button>
+      )
+    }
   }
 
   render() {
@@ -39,10 +68,10 @@ class LoginForm extends Component {
           />
         </CardSection>
 
+        {this.renderError()}
+
         <CardSection>
-          <Button>
-            Login
-          </Button>
+          {this.renderButton()}
         </CardSection>
 
       </Card>
@@ -50,12 +79,20 @@ class LoginForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { email, password } = state.auth
-  return {
-    email: email,
-    password: password
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red'
   }
 }
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged })(LoginForm)
+const mapStateToProps = state => {
+  const { email, password, error, loading } = state.auth
+  return { email, password, error, loading }
+}
+
+export default connect(mapStateToProps, {
+  emailChanged,
+  passwordChanged,
+  loginUser })(LoginForm)
