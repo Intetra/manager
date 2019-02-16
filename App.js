@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import { BackHandler } from 'react-native'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
 import ReduxThunk from 'redux-thunk'
+import {  Actions } from 'react-native-router-flux'
 import reducers from './src/reducers'
-import LoginForm from './src/components/LoginForm'
+import RouterComponent from './src/Router'
 
 class App extends Component {
+
   componentWillMount() {
     const config = {
       apiKey: 'AIzaSyC6C___ZSeX5e_p4VItjXofh42a6OK2h3c',
@@ -22,7 +25,7 @@ class App extends Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
     return (
       <Provider store={store}>
-        <LoginForm />
+        <RouterComponent />
       </Provider>
     )
   }
