@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
+import { View } from 'react-native'
 import { Router, Stack, Scene, Actions } from 'react-native-router-flux'
 import LoginForm from './components/LoginForm'
 import EmployeeList from './components/EmployeeList'
+import EmployeeCreate from './components/EmployeeCreate'
+
+const renderPlaceholder = () => <View />
 
 class RouterComponent extends Component {
   onBackPress() {
@@ -22,7 +26,9 @@ class RouterComponent extends Component {
               key="login"
               component={LoginForm}
               title="Please log in"
-              titleStyle={styles.titleStyle}
+              titleStyle={{textAlign: "center", flex: 1}}
+              renderLeftButton={this.renderPlaceholder}
+              renderRightButton={this.renderPlaceholder}
             />
           </Stack>
           <Stack key="main">
@@ -31,20 +37,22 @@ class RouterComponent extends Component {
               key="employeeList"
               component={EmployeeList}
               title="Employees"
-              titleStyle={styles.titleStyle}
+              titleStyle={{textAlign: "center", flex: 1}}
+              rightTitle="Add"
+              onRight={() => Actions.employeeCreate()}
+              renderLeftButton={this.renderPlaceholder}
+            />
+            <Scene
+              key="employeeCreate"
+              component={EmployeeCreate}
+              title="Create Employee"
+              titleStyle={{textAlign: "center", flex: 1}}
+              renderRightButton={this.renderPlaceholder}
             />
           </Stack>
         </Stack>
       </Router>
     )
-  }
-}
-
-
-const styles = {
-  titleStyle: {
-    flex: 1,
-    textAlign: "center"
   }
 }
 
