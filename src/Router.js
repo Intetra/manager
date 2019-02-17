@@ -1,24 +1,33 @@
 import React from 'react'
-import { View } from 'react-native'
-import { createStackNavigator, createAppContainer } from 'react-navigation'
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createAppContainer } from 'react-navigation'
 import LoginForm from './components/LoginForm'
 import EmployeeList from './components/EmployeeList'
 import EmployeeCreate from './components/EmployeeCreate'
+import AuthLoadingScreen from './components/AuthLoadingScreen'
 
-const MainRouter = createStackNavigator({
+const AuthRouter = createStackNavigator({
   login: {
     screen: LoginForm,
     navigationOptions: () => ({
       header: null
     }),
   },
-  employees: {
+},
+{
+ initialRouteName: "login",
+})
+
+const MainRouter = createStackNavigator({
+  employeeList: {
     screen: EmployeeList,
     navigationOptions: () => ({
       header: null
     }),
   },
-  employee: {
+  employeeCreate: {
     screen: EmployeeCreate,
     navigationOptions: () => ({
       header: null
@@ -26,9 +35,16 @@ const MainRouter = createStackNavigator({
   }
 },
 {
- initialRouteName: "login",
-});
+ initialRouteName: "employeeList",
+})
 
-const Router = createAppContainer(MainRouter)
+const Router = createAppContainer(createSwitchNavigator({
+  authLoading: AuthLoadingScreen,
+  main: MainRouter,
+  auth: AuthRouter,
+},
+{
+  initialRouteName: 'authLoading',
+}))
 
 export default Router

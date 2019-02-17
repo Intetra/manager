@@ -50,9 +50,9 @@ const styles = {
     backgroundColor: '#F8F8F8',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 60,
+    height: 70,
     width: '100%',
-    paddingTop: 20,
+    paddingTop: 30,
     position: 'relative',
     //shadow settings
     shadowColor: 'black',

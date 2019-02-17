@@ -7,7 +7,13 @@ class EmployeeList extends Component {
   render() {
     return (
       <View>
-        <Header headerText='Employees' />
+        <Header
+          headerText='Employees'
+          rightButton='add'
+          rightOnClick={() => this.props.navigation.navigate('employeeCreate')}
+          leftButton='Sign Out'
+          leftOnClick={() => {}}
+        />
         <Card>
           <CardSection>
             <Text>Employee</Text>
