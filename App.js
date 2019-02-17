@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { BackHandler } from 'react-native'
+
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
 import ReduxThunk from 'redux-thunk'
-import {  Actions } from 'react-native-router-flux'
+import NavigationService from './src/NavigationService';
 import reducers from './src/reducers'
-import RouterComponent from './src/Router'
+import Router from './src/Router'
 
 class App extends Component {
 
@@ -25,7 +25,9 @@ class App extends Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
     return (
       <Provider store={store}>
-        <RouterComponent />
+        <Router ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }} />
       </Provider>
     )
   }

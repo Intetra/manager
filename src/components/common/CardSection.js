@@ -17,6 +17,7 @@ const styles = {
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     borderColor: '#ddd',
     position: 'relative'
   }

@@ -1,21 +1,29 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import Actions from 'react-native-router-flux'
+import { Header, Card, CardSection } from './common'
 
 class EmployeeList extends Component {
 
   render() {
     return (
       <View>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
-        <Text>Employee List</Text>
+        <Header headerText='Employees' />
+        <Card>
+          <CardSection>
+            <Text>Employee</Text>
+          </CardSection>
+          <CardSection>
+            <Text>Employee</Text>
+          </CardSection>
+        </Card>
       </View>
     )
+  }
+}
+
+const styles = {
+  listStyle: {
+    flexDirection: 'column'
   }
 }
 

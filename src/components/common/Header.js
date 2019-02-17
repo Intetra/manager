@@ -1,26 +1,58 @@
 // import libraries for making a Component
-import React from 'react'
-import { Text, View } from 'react-native'
+import React, { Component } from 'react'
+import { Text, View, TouchableOpacity } from 'react-native'
 
 // make a Component
-const Header = (props) => {
-  const { textStyle, viewStyle } = styles
+class Header extends Component {
+  renderLeftButton() {
+    const { leftButton, leftOnClick } = this.props
+    let left = ''
+    if (leftButton) {
+      left = leftButton
+    }
+    return (
+      <TouchableOpacity onPress={leftOnClick} style={styles.buttonStyle}>
+        <Text>{left}</Text>
+      </TouchableOpacity>
+    )
+  }
 
-  return (
-    <View style={viewStyle}>
-      <Text style={textStyle}>{props.headerText}</Text>
-    </View>
-  )
+  renderRightButton() {
+    const { rightButton, rightOnClick } = this.props
+    let right = ''
+    if (rightButton) {
+      right = rightButton
+    }
+    return (
+      <TouchableOpacity onPress={rightOnClick} style={styles.buttonStyle}>
+        <Text>{right}</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  render() {
+    const { textStyle, viewStyle } = styles
+
+    return (
+      <View style={viewStyle}>
+        {this.renderLeftButton()}
+        <Text style={textStyle}>{this.props.headerText}</Text>
+        {this.renderRightButton()}
+      </View>
+    )
+  }
 }
 
 //define styling
 const styles = {
   viewStyle: {
+    flexDirection: 'row',
     backgroundColor: '#F8F8F8',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     height: 60,
-    paddingTop: 15,
+    width: '100%',
+    paddingTop: 20,
     position: 'relative',
     //shadow settings
     shadowColor: 'black',
@@ -33,6 +65,11 @@ const styles = {
   },
   textStyle: {
     fontSize: 20
+  },
+  buttonStyle: {
+    width: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }
 

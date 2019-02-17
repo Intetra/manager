@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { emailChanged, passwordChanged, loginUser } from '../actions'
-import { Card, CardSection, Input, Button, Spinner } from './common'
+import { Header, Card, CardSection, Input, Button, Spinner } from './common'
 
 class LoginForm extends Component {
 
@@ -47,34 +47,43 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <Card>
+      <View>
+        <Header
+          headerText='Login'
+          rightButton="right"
+          rightOnClick={() => alert('right')}
+          leftButton="left"
+          leftOnClick={() => alert('left')}
+        />
+        <Card>
 
-        <CardSection>
-          <Input
-            label='Email'
-            placeholder='email@gmail.com'
-            onChangeText={this.onEmailChange.bind(this)}
-            value={this.props.email}
-          />
-        </CardSection>
+          <CardSection>
+            <Input
+              label='Email'
+              placeholder='email@gmail.com'
+              onChangeText={this.onEmailChange.bind(this)}
+              value={this.props.email}
+            />
+          </CardSection>
 
-        <CardSection>
-          <Input
-            secureTextEntry
-            label='Password'
-            placeholder='password'
-            onChangeText={this.onPasswordChange.bind(this)}
-            value={this.props.password}
-          />
-        </CardSection>
+          <CardSection>
+            <Input
+              secureTextEntry
+              label='Password'
+              placeholder='password'
+              onChangeText={this.onPasswordChange.bind(this)}
+              value={this.props.password}
+            />
+          </CardSection>
 
-        {this.renderError()}
+          {this.renderError()}
 
-        <CardSection>
-          {this.renderButton()}
-        </CardSection>
+          <CardSection>
+            {this.renderButton()}
+          </CardSection>
 
-      </Card>
+        </Card>
+      </View>
     )
   }
 }
