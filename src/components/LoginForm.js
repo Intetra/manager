@@ -50,10 +50,8 @@ class LoginForm extends Component {
       <View>
         <Header
           headerText='Login'
-          rightButton="right"
-          rightOnClick={() => alert('right')}
-          leftButton="left"
-          leftOnClick={() => alert('left')}
+          rightButton="test"
+          rightOnClick={() => this.props.navigation.navigate('employeeList')}
         />
         <Card>
 

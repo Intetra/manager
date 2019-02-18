@@ -11,8 +11,6 @@ class EmployeeList extends Component {
           headerText='Employees'
           rightButton='add'
           rightOnClick={() => this.props.navigation.navigate('employeeCreate')}
-          leftButton='Sign Out'
-          leftOnClick={() => {}}
         />
         <Card>
           <CardSection>
