@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Picker } from 'react-native'
+import { View, Text, Picker } from 'react-native'
 import { connect } from 'react-redux'
 import { Header, Card, CardSection, Input, Button } from './common'
 import { employeeUpdate } from '../actions'
@@ -19,6 +19,7 @@ class EmployeeCreate extends Component {
 
   render() {
     const { navigation, name, phone, shift, employeeUpdate } = this.props
+    const { pickerLabelStyle, pickerHolderStyle } = styles
 
     return (
       <View>
@@ -48,14 +49,17 @@ class EmployeeCreate extends Component {
               }}
             />
           </CardSection>
-          <CardSection>
-            <Picker
-              style={{ flex: 1 }}
-              selectedValue={this.props.shift}
-              onValueChange={ value => employeeUpdate({ prop: 'shift', value })}
-            >
-              {this.renderPickList()}
-            </Picker>
+          <CardSection style={{ flexDirection: 'column' }}>
+            <Text style={pickerLabelStyle}>Shift</Text>
+            <View style={pickerHolderStyle}>
+              <Picker
+                style={{ flex: 1 }}
+                selectedValue={this.props.shift}
+                onValueChange={ value => employeeUpdate({ prop: 'shift', value })}
+              >
+                {this.renderPickList()}
+              </Picker>
+            </View>
           </CardSection>
           <CardSection>
             <Button>Create</Button>
@@ -63,6 +67,20 @@ class EmployeeCreate extends Component {
         </Card>
       </View>
     )
+  }
+}
+
+const styles = {
+  pickerLabelStyle: {
+    fontSize: 18,
+    paddingLeft: 20,
+  },
+  pickerHolderStyle: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    position: 'relative',
+    paddingLeft: 15,
+    paddingRight: 15,
   }
 }
 
