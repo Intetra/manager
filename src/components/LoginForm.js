@@ -1,10 +1,23 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { emailChanged, passwordChanged, loginUser } from '../actions'
+import firebase from '../Firebase'
+import { emailChanged, passwordChanged, loginUser, signUserOut } from '../actions'
 import { Header, Card, CardSection, Input, Button, Spinner } from './common'
 
+const userDB = firebase.firestore().collection('users')
+
 class LoginForm extends Component {
+  componentWillMount() {/*
+    userDB.get()
+      .then(snapshot => {
+        snapshot
+          .docs
+          .forEach(doc => {
+            console.log(JSON.parse(doc._document.data.toString()))
+          })
+      })
+  */}
 
   onEmailChange(text) {
     this.props.emailChanged(text)
@@ -52,6 +65,8 @@ class LoginForm extends Component {
           headerText='Login'
           rightButton="test"
           rightOnClick={() => this.props.navigation.navigate('employeeList')}
+          leftButton="sign out"
+          leftOnClick={() => this.props.signUserOut()}
         />
         <Card>
 
@@ -102,4 +117,4 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   emailChanged,
   passwordChanged,
-  loginUser })(LoginForm)
+  loginUser, signUserOut })(LoginForm)

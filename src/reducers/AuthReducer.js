@@ -4,6 +4,7 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
+  SIGN_USER_OUT
 }
   from '../actions/types'
 
@@ -30,6 +31,8 @@ export default (state = INITIAL_STATE, action) => {
         error:'Authentication Failed',
         password: '',
         loading: false }
+    case SIGN_USER_OUT:
+      return { ...state, ...INITIAL_STATE }
     default:
       return state
   }

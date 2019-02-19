@@ -1,11 +1,12 @@
 import NavigationService from '../NavigationService';
-import firebase from 'firebase'
+import firebase from '../Firebase'
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER
+  LOGIN_USER,
+  SIGN_USER_OUT
 }
   from './types'
 
@@ -49,4 +50,17 @@ const loginUserSuccess = (dispatch, user) => {
 
 const loginUserFail = (dispatch) => {
   dispatch({ type: LOGIN_USER_FAIL })
+}
+
+export const signUserOut = () => {
+  return (dispatch) => {
+    dispatch({ type: SIGN_USER_OUT })
+
+    firebase.auth().signOut().then(function() {
+      console.log('User signed out')
+    }).catch(function(error) {
+      console.log(error.code)
+      console.log(error.message)
+    });
+  }
 }
