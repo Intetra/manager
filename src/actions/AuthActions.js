@@ -84,7 +84,6 @@ export const signUserOut = () => {
   return (dispatch) => {
     dispatch({ type: SIGN_USER_OUT })
     firebase.auth().signOut().then(function() {
-      console.log('User signed out')
     }).catch(function(error) {
       console.log(error.code)
       console.log(error.message)
@@ -94,20 +93,17 @@ export const signUserOut = () => {
 
 export const createUser = ({ name, email, password }) => {
   return (dispatch) => {
-    console.log(firebase.auth().currentUser)
     dispatch({ type: CREATE_USER })
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(() => {
         const user = firebase.auth().currentUser
-        console.log(user.uid)
         const userDB = firebase.firestore().collection('users')
         userDB.doc(user.uid).set({
           name: name,
           isManager: true,
           email: email
         })
-        console.log('here')
         createUserSuccess(dispatch, user)
       })
       .catch((error) => {

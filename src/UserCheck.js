@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusBar, View, Text, Image } from 'react-native';
 import { connect } from 'react-redux'
 import firebase from './Firebase'
-import { Header, Spinner } from './components/common'
+import { Spinner } from './components/common'
 import { loginUser, signUserOut } from './actions'
 
 //initialize the user database
@@ -46,7 +46,6 @@ class UserCheck extends React.Component {
     const { viewStyle } = styles
     return (
       <View style={viewStyle}>
-        <Header headerText='UserCheck' />
         <Spinner size={50} />
         <StatusBar barStyle="default" />
       </View>
