@@ -6,26 +6,26 @@ import { Text, View, TouchableOpacity } from 'react-native'
 class Header extends Component {
   renderLeftButton() {
     const { leftButton, leftOnClick } = this.props
-    let left = ''
+    let left = <Text></Text>
     if (leftButton) {
       left = leftButton
     }
     return (
       <TouchableOpacity onPress={leftOnClick} style={styles.buttonStyle}>
-        <Text>{left}</Text>
+        {left}
       </TouchableOpacity>
     )
   }
 
   renderRightButton() {
     const { rightButton, rightOnClick } = this.props
-    let right = ''
+    let right = <Text></Text>
     if (rightButton) {
       right = rightButton
     }
     return (
       <TouchableOpacity onPress={rightOnClick} style={styles.buttonStyle}>
-        <Text>{right}</Text>
+          {right}
       </TouchableOpacity>
     )
   }
@@ -67,6 +67,7 @@ const styles = {
     fontSize: 20
   },
   buttonStyle: {
+    height: '100%',
     width: 50,
     justifyContent: 'center',
     alignItems: 'center'

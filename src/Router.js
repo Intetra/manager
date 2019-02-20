@@ -1,41 +1,35 @@
 import React from 'react'
 import {
-  createStackNavigator,
   createSwitchNavigator,
-  createAppContainer } from 'react-navigation'
-import LoginForm from './components/LoginForm'
+  createDrawerNavigator,
+  createAppContainer
+} from 'react-navigation'
+import LoginForm from './components/auth/LoginForm'
 import EmployeeList from './components/EmployeeList'
+import SignUpForm from './components/auth/SignUpForm'
 import EmployeeCreate from './components/EmployeeCreate'
-import AuthLoadingScreen from './components/AuthLoadingScreen'
+import AuthLoadingScreen from './components/auth/AuthLoadingScreen'
+import MainNavDrawer from './components/MainNavDrawer'
 
-const AuthRouter = createStackNavigator({
-  login: {
-    screen: LoginForm,
-    navigationOptions: () => ({
-      header: null
-    }),
-  },
+const AuthRouter = createDrawerNavigator({
+  login: LoginForm,
+  signUp: SignUpForm
 },
 {
- initialRouteName: "login",
+  headerMode: 'none',
+  initialRouteName: 'login',
 })
 
-const MainRouter = createStackNavigator({
-  employeeList: {
-    screen: EmployeeList,
-    navigationOptions: () => ({
-      header: null
-    }),
-  },
-  employeeCreate: {
-    screen: EmployeeCreate,
-    navigationOptions: () => ({
-      header: null
-    }),
-  }
+
+
+const MainRouter = createDrawerNavigator({
+  employeeList: EmployeeList,
+  employeeCreate: EmployeeCreate,
 },
 {
- initialRouteName: "employeeList",
+  headerMode: 'none',
+  initialRouteName: 'employeeList',
+  contentComponent: MainNavDrawer
 })
 
 const Router = createAppContainer(createSwitchNavigator({
@@ -44,6 +38,7 @@ const Router = createAppContainer(createSwitchNavigator({
   auth: AuthRouter,
 },
 {
+  headerMode: 'none',
   initialRouteName: 'authLoading',
 }))
 

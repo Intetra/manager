@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
+import { connect } from 'react-redux'
 import { Header, Card, CardSection } from './common'
 import firebase from '../Firebase'
+import { signUserOut } from '../actions'
 
 class EmployeeList extends Component {
-  componentWillMount() {/*
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         // User is signed in.
@@ -24,15 +26,17 @@ class EmployeeList extends Component {
         // ...
       }
     })
-  */}
+  }
 
   render() {
     return (
       <View>
         <Header
           headerText='Employees'
-          rightButton='add'
-          rightOnClick={() => this.props.navigation.navigate('employeeCreate')}
+          leftButton={ <Image
+            source={require('../static/menu.png')}
+            style={styles.menuButtonStyle} /> }
+          leftOnClick={() => this.props.navigation.openDrawer()}
         />
         <Card>
           <CardSection>
@@ -50,7 +54,14 @@ class EmployeeList extends Component {
 const styles = {
   listStyle: {
     flexDirection: 'column'
+  },
+  menuButtonStyle: {
+    height: 20,
+    width: 20
   }
+
 }
+
+connect(null, { signUserOut })(EmployeeList)
 
 export default EmployeeList

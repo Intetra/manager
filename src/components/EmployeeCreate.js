@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Picker } from 'react-native'
+import { View, Text, Picker, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Header, Card, CardSection, Input, Button } from './common'
 import { employeeUpdate } from '../actions'
@@ -25,8 +25,10 @@ class EmployeeCreate extends Component {
       <View>
         <Header
           headerText='New Employee'
-          leftButton='cancel'
-          leftOnClick={() => navigation.goBack()}
+          leftButton={ <Image
+            source={require('../static/menu.png')}
+            style={styles.menuButtonStyle} /> }
+          leftOnClick={() => navigation.openDrawer()}
         />
         <Card>
           <CardSection>
@@ -81,6 +83,10 @@ const styles = {
     position: 'relative',
     paddingLeft: 15,
     paddingRight: 15,
+  },
+  menuButtonStyle: {
+    height: 20,
+    width: 20
   }
 }
 

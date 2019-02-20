@@ -6,7 +6,10 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
-  SIGN_USER_OUT
+  SIGN_USER_OUT,
+  CREATE_USER,
+  CREATE_USER_FAIL,
+  CREATE_USER_SUCCESS
 }
   from './types'
 
@@ -33,9 +36,7 @@ export const loginUser = ({ email, password }) => {
       .catch((error) => {
         console.log(error.code)
         console.log(error.message)
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(user => loginUserSuccess(dispatch, user))
-          .catch(() => loginUserFail(dispatch))
+        loginUserFail(dispatch, error)
       })
   }
 }
@@ -48,19 +49,58 @@ const loginUserSuccess = (dispatch, user) => {
   NavigationService.navigate('main')
 }
 
-const loginUserFail = (dispatch) => {
-  dispatch({ type: LOGIN_USER_FAIL })
+const loginUserFail = (dispatch, error) => {
+  dispatch({
+    type: LOGIN_USER_FAIL,
+    errorCode: error.code,
+    errorMessage: error.message
+  })
 }
 
 export const signUserOut = () => {
+  console.log('here')
   return (dispatch) => {
+    console.log('here 2')
     dispatch({ type: SIGN_USER_OUT })
-
     firebase.auth().signOut().then(function() {
       console.log('User signed out')
+      NavigationService.navigate('authLoading')
     }).catch(function(error) {
       console.log(error.code)
       console.log(error.message)
     });
   }
+}
+
+export const createUser = ({ email, password }) => {
+  return (dispatch) => {
+    dispatch({ type: CREATE_USER })
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        createUserSuccess(dispatch, user)
+        loginUser(email, password)
+      })
+      .catch((error) => {
+        createUserFail(dispatch, error)
+        console.log(error.code)
+        console.log(error.message)
+      })
+  }
+}
+
+const createUserSuccess = (dispatch, user) => {
+  dispatch({
+    type: CREATE_USER_SUCCESS,
+    payload:user
+  })
+  NavigationService.navigate('main')
+}
+
+const createUserFail = (dispatch, error) => {
+  dispatch({
+    type: CREATE_USER_FAIL,
+    errorCode: error.code,
+    errorMessage: error.message
+  })
 }

@@ -1,14 +1,19 @@
 import {
+  NAME_CHANGED,
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
-  SIGN_USER_OUT
+  SIGN_USER_OUT,
+  CREATE_USER,
+  CREATE_USER_FAIL,
+  CREATE_USER_SUCCESS
 }
   from '../actions/types'
 
 const INITIAL_STATE = {
+  name: '',
   email: '',
   password: '',
   user: null,
@@ -28,11 +33,20 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ...INITIAL_STATE, user:action.payload }
     case LOGIN_USER_FAIL:
       return { ...state,
-        error:'Authentication Failed',
+        error: action.errorCode + ' - ' + action.errorMessage,
         password: '',
         loading: false }
     case SIGN_USER_OUT:
       return { ...state, ...INITIAL_STATE }
+    case CREATE_USER:
+      return { ...state, loading: true, error: '' }
+    case CREATE_USER_SUCCESS:
+      return { ...state, ...INITIAL_STATE, user:action.payload }
+    case CREATE_USER_FAIL:
+      return { ...state,
+        error: action.errorCode + ' - ' + action.errorMessage,
+        password: '',
+        loading: false }
     default:
       return state
   }
