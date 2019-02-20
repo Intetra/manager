@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { connect } from 'react-redux'
-import { Header, Button, Card, CardSection } from './common'
-import { signUserOut } from '../actions'
+import { Header, Button, Card, CardSection } from '../common'
+import { signUserOut } from '../../actions'
 
-class MainNavDrawer extends Component {
+class ManagerNavDrawer extends Component {
   render() {
     const { navigate } = this.props.navigation
     return (
       <View>
-        <Header headerText='Main Nav' />
+        <Header headerText='Manager Nav' />
         <Card>
           <CardSection>
             <Button onPress={() => navigate('employeeList')}>
@@ -32,4 +32,4 @@ class MainNavDrawer extends Component {
   }
 }
 
-export default connect(null, { signUserOut })(MainNavDrawer)
+export default connect(null, { signUserOut })(ManagerNavDrawer)

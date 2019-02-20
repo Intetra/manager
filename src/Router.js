@@ -5,11 +5,14 @@ import {
   createAppContainer
 } from 'react-navigation'
 import LoginForm from './components/auth/LoginForm'
-import EmployeeList from './components/EmployeeList'
+import EmployeeList from './components/manager/EmployeeList'
 import SignUpForm from './components/auth/SignUpForm'
-import EmployeeCreate from './components/EmployeeCreate'
-import AuthLoadingScreen from './components/auth/AuthLoadingScreen'
-import MainNavDrawer from './components/MainNavDrawer'
+import EmployeeCreate from './components/manager/EmployeeCreate'
+import UserCheck from './UserCheck'
+import AuthNavDrawer from './components/auth/AuthNavDrawer'
+import ManagerNavDrawer from './components/manager/ManagerNavDrawer'
+import EmployeeMain from './components/employee/EmployeeMain'
+import EmployeeNavDrawer from './components/employee/EmployeeNavDrawer'
 
 const AuthRouter = createDrawerNavigator({
   login: LoginForm,
@@ -18,28 +21,37 @@ const AuthRouter = createDrawerNavigator({
 {
   headerMode: 'none',
   initialRouteName: 'login',
+  contentComponent: AuthNavDrawer
 })
 
-
-
-const MainRouter = createDrawerNavigator({
+const ManagerRouter = createDrawerNavigator({
   employeeList: EmployeeList,
   employeeCreate: EmployeeCreate,
 },
 {
   headerMode: 'none',
   initialRouteName: 'employeeList',
-  contentComponent: MainNavDrawer
+  contentComponent: ManagerNavDrawer
+})
+
+const EmployeeRouter = createDrawerNavigator({
+  employeeMain: EmployeeMain
+},
+{
+  headerMode: 'none',
+  initialRouteName: 'employeeMain',
+  contentComponent: EmployeeNavDrawer
 })
 
 const Router = createAppContainer(createSwitchNavigator({
-  authLoading: AuthLoadingScreen,
-  main: MainRouter,
+  userCheck: UserCheck,
+  manager: ManagerRouter,
+  employee: EmployeeRouter,
   auth: AuthRouter,
 },
 {
   headerMode: 'none',
-  initialRouteName: 'authLoading',
+  initialRouteName: 'userCheck',
 }))
 
 export default Router

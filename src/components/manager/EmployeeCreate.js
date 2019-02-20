@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, Picker, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Header, Card, CardSection, Input, Button } from './common'
-import { employeeUpdate } from '../actions'
+import { Card, CardSection, Input, Button } from '../common'
+import { employeeUpdate } from '../../actions'
+import NavHeader from '../NavHeader'
 
 class EmployeeCreate extends Component {
 
@@ -18,18 +19,12 @@ class EmployeeCreate extends Component {
   }
 
   render() {
-    const { navigation, name, phone, shift, employeeUpdate } = this.props
+    const { name, phone, employeeUpdate } = this.props
     const { pickerLabelStyle, pickerHolderStyle } = styles
 
     return (
       <View>
-        <Header
-          headerText='New Employee'
-          leftButton={ <Image
-            source={require('../static/menu.png')}
-            style={styles.menuButtonStyle} /> }
-          leftOnClick={() => navigation.openDrawer()}
-        />
+        <NavHeader headerText='New Employee' />
         <Card>
           <CardSection>
             <Input
@@ -84,10 +79,6 @@ const styles = {
     paddingLeft: 15,
     paddingRight: 15,
   },
-  menuButtonStyle: {
-    height: 20,
-    width: 20
-  }
 }
 
 const mapStateToProps = state => {

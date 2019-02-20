@@ -1,17 +1,26 @@
-import NavigationService from '../NavigationService';
 import firebase from '../Firebase'
 import {
+  NAME_CHANGED,
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
+  VERIFY_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
   SIGN_USER_OUT,
   CREATE_USER,
   CREATE_USER_FAIL,
-  CREATE_USER_SUCCESS
+  CREATE_USER_SUCCESS,
+  BAD_VERIFY
+} from './types'
+import NavigationService from '../NavigationService'
+
+export const nameChanged = (text) => {
+  return {
+    type: NAME_CHANGED,
+    payload: text
+  }
 }
-  from './types'
 
 export const emailChanged = (text) => {
   return {
@@ -23,6 +32,20 @@ export const emailChanged = (text) => {
 export const passwordChanged = (text) => {
   return {
     type: PASSWORD_CHANGED,
+    payload: text
+  }
+}
+
+export const badVerify = (text) => {
+  return {
+    type: BAD_VERIFY,
+    payload: text
+  }
+}
+
+export const verifyChanged = (text) => {
+  return {
+    type: VERIFY_CHANGED,
     payload: text
   }
 }
@@ -46,7 +69,7 @@ const loginUserSuccess = (dispatch, user) => {
     type: LOGIN_USER_SUCCESS,
     payload:user
   })
-  NavigationService.navigate('main')
+  NavigationService.navigate('userCheck')
 }
 
 const loginUserFail = (dispatch, error) => {
@@ -58,13 +81,10 @@ const loginUserFail = (dispatch, error) => {
 }
 
 export const signUserOut = () => {
-  console.log('here')
   return (dispatch) => {
-    console.log('here 2')
     dispatch({ type: SIGN_USER_OUT })
     firebase.auth().signOut().then(function() {
       console.log('User signed out')
-      NavigationService.navigate('authLoading')
     }).catch(function(error) {
       console.log(error.code)
       console.log(error.message)
@@ -72,14 +92,23 @@ export const signUserOut = () => {
   }
 }
 
-export const createUser = ({ email, password }) => {
+export const createUser = ({ name, email, password }) => {
   return (dispatch) => {
+    console.log(firebase.auth().currentUser)
     dispatch({ type: CREATE_USER })
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(user => {
+      .then(() => {
+        const user = firebase.auth().currentUser
+        console.log(user.uid)
+        const userDB = firebase.firestore().collection('users')
+        userDB.doc(user.uid).set({
+          name: name,
+          isManager: true,
+          email: email
+        })
+        console.log('here')
         createUserSuccess(dispatch, user)
-        loginUser(email, password)
       })
       .catch((error) => {
         createUserFail(dispatch, error)
@@ -94,7 +123,7 @@ const createUserSuccess = (dispatch, user) => {
     type: CREATE_USER_SUCCESS,
     payload:user
   })
-  NavigationService.navigate('main')
+  NavigationService.navigate('userCheck')
 }
 
 const createUserFail = (dispatch, error) => {

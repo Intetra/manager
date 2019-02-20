@@ -2,13 +2,15 @@ import {
   NAME_CHANGED,
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
+  VERIFY_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
   SIGN_USER_OUT,
   CREATE_USER,
   CREATE_USER_FAIL,
-  CREATE_USER_SUCCESS
+  CREATE_USER_SUCCESS,
+  BAD_VERIFY
 }
   from '../actions/types'
 
@@ -16,6 +18,7 @@ const INITIAL_STATE = {
   name: '',
   email: '',
   password: '',
+  verify: '',
   user: null,
   error: '',
   loading: false
@@ -23,10 +26,16 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case NAME_CHANGED:
+      return { ...state, name: action.payload}
     case EMAIL_CHANGED:
       return { ...state, email: action.payload }
     case PASSWORD_CHANGED:
       return { ...state, password: action.payload }
+    case VERIFY_CHANGED:
+      return { ...state, verify: action.payload }
+    case BAD_VERIFY:
+      return { ...state, password: '', verify: '', error: action.payload }
     case LOGIN_USER:
       return { ...state, loading: true, error: '' }
     case LOGIN_USER_SUCCESS:
@@ -46,6 +55,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,
         error: action.errorCode + ' - ' + action.errorMessage,
         password: '',
+        verify: '',
         loading: false }
     default:
       return state

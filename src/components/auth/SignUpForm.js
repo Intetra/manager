@@ -2,10 +2,18 @@ import React, { Component } from 'react'
 import { View, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
 import firebase from '../../Firebase'
-import { emailChanged, passwordChanged, loginUser, signUserOut, createUser } from '../../actions'
-import { Header, Card, CardSection, Input, Button, Spinner } from '../common'
-
-const userDB = firebase.firestore().collection('users')
+import {
+  nameChanged,
+  emailChanged,
+  passwordChanged,
+  verifyChanged,
+  loginUser,
+  signUserOut,
+  createUser,
+  badVerify
+} from '../../actions'
+import { Card, CardSection, Input, Button, Spinner } from '../common'
+import NavHeader from '../NavHeader'
 
 class SignUpForm extends Component {
 
@@ -21,9 +29,18 @@ class SignUpForm extends Component {
     this.props.passwordChanged(text)
   }
 
+  onVerifyChange(text) {
+    this.props.verifyChanged(text)
+  }
+
   onButtonPress() {
-    const { email, password } = this.props
-    this.props.createUser({ email, password })
+    const { name, email, password, verify, createUser, badVerify } = this.props
+    if (password === verify) {
+      createUser({ name, email, password })
+    } else {
+      badVerify('Passwords dont match.')
+    }
+
   }
 
   renderError() {
@@ -55,14 +72,17 @@ class SignUpForm extends Component {
   render() {
     return (
       <View>
-        <Header
-          headerText='Sign Up'
-          leftButton={ <Image
-            source={require('../../static/menu.png')}
-            style={styles.menuButtonStyle} /> }
-          leftOnClick={() => this.props.navigation.openDrawer()}
-        />
+        <NavHeader headerText='Sign Up' />
         <Card>
+
+        <CardSection>
+          <Input
+            label='Name'
+            placeholder='Jane'
+            onChangeText={this.onNameChange.bind(this)}
+            value={this.props.name}
+          />
+        </CardSection>
 
           <CardSection>
             <Input
@@ -80,6 +100,16 @@ class SignUpForm extends Component {
               placeholder='password'
               onChangeText={this.onPasswordChange.bind(this)}
               value={this.props.password}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Input
+              secureTextEntry
+              label='Verify'
+              placeholder='password'
+              onChangeText={this.onVerifyChange.bind(this)}
+              value={this.props.verify}
             />
           </CardSection>
 
@@ -101,21 +131,20 @@ const styles = {
     alignSelf: 'center',
     color: 'red'
   },
-  menuButtonStyle: {
-    height: 20,
-    width: 20
-  }
 }
 
 const mapStateToProps = state => {
-  const { email, password, error, loading } = state.auth
-  return { email, password, error, loading }
+  const { name, email, password, verify, error, loading } = state.auth
+  return { name, email, password, verify, error, loading }
 }
 
 export default connect(mapStateToProps, {
   emailChanged,
   passwordChanged,
+  verifyChanged,
   loginUser,
   signUserOut,
-  createUser
+  createUser,
+  nameChanged,
+  badVerify
 })(SignUpForm)

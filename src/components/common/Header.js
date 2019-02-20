@@ -4,6 +4,7 @@ import { Text, View, TouchableOpacity } from 'react-native'
 
 // make a Component
 class Header extends Component {
+  
   renderLeftButton() {
     const { leftButton, leftOnClick } = this.props
     let left = <Text></Text>
@@ -73,6 +74,8 @@ const styles = {
     alignItems: 'center'
   }
 }
+
+
 
 // make the component available to other parts of the app
 export { Header }

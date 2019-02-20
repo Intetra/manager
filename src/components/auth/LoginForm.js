@@ -3,7 +3,8 @@ import { View, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
 import firebase from '../../Firebase'
 import { emailChanged, passwordChanged, loginUser, signUserOut } from '../../actions'
-import { Header, Card, CardSection, Input, Button, Spinner } from '../common'
+import { Card, CardSection, Input, Button, Spinner } from '../common'
+import NavHeader from '../NavHeader'
 
 const userDB = firebase.firestore().collection('users')
 
@@ -63,13 +64,7 @@ class LoginForm extends Component {
     const { menuButtonStyle } = styles
     return (
       <View>
-        <Header
-          headerText='Login'
-          leftButton={ <Image
-            source={require('../../static/menu.png')}
-            style={menuButtonStyle} /> }
-          leftOnClick={() => navigation.openDrawer()}
-        />
+        <NavHeader headerText='Login' />
         <Card>
 
           <CardSection>

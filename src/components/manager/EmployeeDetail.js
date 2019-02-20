@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import { Header, Card, CardSection } from './common'
+import { Card, CardSection } from '../common'
+import NavHeader from '../NavHeader'
 
 class EmployeeList extends Component {
 
   render() {
     return (
       <View>
-        <Header headerText='Employee' />
+        <NavHeader headerText='Employee' />
         <Card>
           <CardSection>
             <Text>Employee</Text>
