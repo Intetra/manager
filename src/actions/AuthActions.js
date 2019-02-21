@@ -11,9 +11,16 @@ import {
   CREATE_USER,
   CREATE_USER_FAIL,
   CREATE_USER_SUCCESS,
-  BAD_VERIFY
+  BAD_VERIFY,
+  CLEAR_STATE
 } from './types'
 import NavigationService from '../NavigationService'
+
+export const clearState = () => {
+  return (dispatch) => {
+    dispatch({ type: CLEAR_STATE })
+  }
+}
 
 export const nameChanged = (text) => {
   return {

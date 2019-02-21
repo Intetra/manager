@@ -11,6 +11,7 @@ export const CREATE_USER = 'create_user'
 export const CREATE_USER_SUCCESS = 'create_user_success'
 export const CREATE_USER_FAIL = 'create_user_fail'
 export const BAD_VERIFY = 'bad_verify'
+export const CLEAR_STATE = 'clear_state'
 
 
 //employee types

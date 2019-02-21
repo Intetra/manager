@@ -1,21 +1,29 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Text} from 'react-native'
+import { connect } from 'react-redux'
+import { clearState } from '../../actions'
 import { Header, Button, Card, CardSection } from '../common'
 
 class AuthNavDrawer extends Component {
+
+  onPress(path) {
+    const { navigation, clearState } = this.props
+    clearState()
+    navigation.navigate(path)
+  }
+
   render() {
-    const { navigate } = this.props.navigation
     return (
       <View>
         <Header headerText='Auth Nav' />
         <Card>
           <CardSection>
-            <Button onPress={() => navigate('login')}>
+            <Button onPress={() => this.onPress('login')}>
               Log In
             </Button>
           </CardSection>
           <CardSection>
-            <Button onPress={() => navigate('signUp')}>
+            <Button onPress={() => this.onPress('signUp')}>
               Sign Up
             </Button>
           </CardSection>
@@ -25,4 +33,4 @@ class AuthNavDrawer extends Component {
   }
 }
 
-export default AuthNavDrawer
+export default connect(null, { clearState })(AuthNavDrawer)

@@ -1,24 +1,16 @@
 import React, { Component } from 'react'
 import { View, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
-import firebase from '../../Firebase'
-import { emailChanged, passwordChanged, loginUser, signUserOut } from '../../actions'
+import {
+  emailChanged,
+  passwordChanged,
+  loginUser,
+  signUserOut
+} from '../../actions'
 import { Card, CardSection, Input, Button, Spinner } from '../common'
 import NavHeader from '../NavHeader'
 
-const userDB = firebase.firestore().collection('users')
-
 class LoginForm extends Component {
-  componentWillMount() {/*
-    userDB.get()
-      .then(snapshot => {
-        snapshot
-          .docs
-          .forEach(doc => {
-            console.log(JSON.parse(doc._document.data.toString()))
-          })
-      })
-  */}
 
   onEmailChange(text) {
     this.props.emailChanged(text)
@@ -60,8 +52,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { navigation, password, email } = this.props
-    const { menuButtonStyle } = styles
+    const { password, email } = this.props
     return (
       <View>
         <NavHeader headerText='Login' />
@@ -118,4 +109,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   emailChanged,
   passwordChanged,
-  loginUser, signUserOut })(LoginForm)
+  loginUser,
+  signUserOut
+})(LoginForm)

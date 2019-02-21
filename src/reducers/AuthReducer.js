@@ -10,7 +10,8 @@ import {
   CREATE_USER,
   CREATE_USER_FAIL,
   CREATE_USER_SUCCESS,
-  BAD_VERIFY
+  BAD_VERIFY,
+  CLEAR_STATE
 }
   from '../actions/types'
 
@@ -26,6 +27,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case CLEAR_STATE:
+      return { ...state, ...INITIAL_STATE }
     case NAME_CHANGED:
       return { ...state, name: action.payload}
     case EMAIL_CHANGED:
