@@ -18,7 +18,8 @@ const INITIAL_STATE = {
   password: '',
   verify: '',
   error: '',
-  loading: false
+  loading: false,
+  answer: ''
 }
 
 export default (state = INITIAL_STATE, action) => {

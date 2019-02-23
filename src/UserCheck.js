@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, View, Text, Image } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { connect } from 'react-redux'
 import firebase from './Firebase'
 import { Spinner } from './components/common'

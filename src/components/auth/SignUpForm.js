@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import {
   userUpdate,
@@ -35,7 +35,7 @@ class SignUpForm extends Component {
     }
   }
 
-  renderButton() {
+  renderSignUpButton() {
     if (this.props.loading) {
       return (
         <Spinner />
@@ -49,23 +49,60 @@ class SignUpForm extends Component {
     }
   }
 
+  renderQuestion() {
+    const { userUpdate } = this.props
+    if (!this.props.answer) {
+      return (
+        <Card>
+          <CardSection style={styles.questionTextStyle}>
+            <Text>Are you an employer, or an employee?</Text>
+          </CardSection>
+          <CardSection>
+            <Button
+              onPress={() => {
+                userUpdate({ prop: 'answer', value: 'employer' })
+              }}
+            >
+              Employer
+            </Button>
+          </CardSection>
+          <CardSection>
+          <Button
+            onPress={() => userUpdate({ prop: 'answer', value: 'employee' })}
+          >
+            Employee
+          </Button>
+          </CardSection>
+        </Card>
+      )
+    } else {
+      if (this.props.answer === 'employer') {
+        return <Card><CardSection><Text>employer case</Text></CardSection></Card>
+      } else if (this.props.answer === 'employee') {
+        return <Card><CardSection><Text>employee case</Text></CardSection></Card>
+      } else {
+        return <Card><CardSection><Text>error case</Text></CardSection></Card>
+      }
+    }
+  }
+
   render() {
     const { name, email, password, verify, userUpdate } = this.props
     return (
       <View>
         <NavHeader headerText='Sign Up' />
+        {this.renderQuestion()}
         <Card>
-
-        <CardSection>
-          <Input
-            label='Name'
-            placeholder='Jane'
-            value={name}
-            onChangeText={ value => {
-              userUpdate({ prop: 'name', value })
-            }}
-          />
-        </CardSection>
+          <CardSection>
+            <Input
+              label='Name'
+              placeholder='Jane'
+              value={name}
+              onChangeText={ value => {
+                userUpdate({ prop: 'name', value })
+              }}
+            />
+          </CardSection>
 
           <CardSection>
             <Input
@@ -105,7 +142,7 @@ class SignUpForm extends Component {
           {this.renderError()}
 
           <CardSection>
-            {this.renderButton()}
+            {this.renderSignUpButton()}
           </CardSection>
 
         </Card>
@@ -120,11 +157,15 @@ const styles = {
     alignSelf: 'center',
     color: 'red'
   },
+  questionTextStyle: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 }
 
 const mapStateToProps = state => {
-  const { name, email, password, verify, error, loading } = state.auth
-  return { name, email, password, verify, error, loading }
+  const { name, email, password, verify, error, loading, answer } = state.auth
+  return { name, email, password, verify, error, loading, answer }
 }
 
 export default connect(mapStateToProps, {

@@ -20,16 +20,20 @@ export const clearState = () => {
 }
 
 export const userUpdate = ({ prop, value }) => {
-  return {
-    type: USER_UPDATE,
-    payload: { prop, value }
+  return (dispatch) => {
+    dispatch({
+      type: USER_UPDATE,
+      payload: { prop, value }
+    })
   }
 }
 
 export const badVerify = (text) => {
-  return {
-    type: BAD_VERIFY,
-    payload: text
+  return (dispatch) => {
+    dispatch({
+      type: BAD_VERIFY,
+      payload: text
+    })
   }
 }
 
