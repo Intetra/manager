@@ -1,9 +1,13 @@
-import { EMPLOYEE_UPDATE } from '../actions/types'
+import {
+  EMPLOYEE_UPDATE
+} from '../actions/types'
 
 const INITIAL_STATE = {
   name: '',
   phone: '',
-  shift: ''
+  email: '',
+  password: '',
+  verify: '',
 }
 
 export default (state = INITIAL_STATE, action) => {

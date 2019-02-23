@@ -1,9 +1,6 @@
 import firebase from '../Firebase'
 import {
-  NAME_CHANGED,
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
-  VERIFY_CHANGED,
+  USER_UPDATE,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
@@ -22,24 +19,10 @@ export const clearState = () => {
   }
 }
 
-export const nameChanged = (text) => {
+export const userUpdate = ({ prop, value }) => {
   return {
-    type: NAME_CHANGED,
-    payload: text
-  }
-}
-
-export const emailChanged = (text) => {
-  return {
-    type: EMAIL_CHANGED,
-    payload: text
-  }
-}
-
-export const passwordChanged = (text) => {
-  return {
-    type: PASSWORD_CHANGED,
-    payload: text
+    type: USER_UPDATE,
+    payload: { prop, value }
   }
 }
 
@@ -50,19 +33,12 @@ export const badVerify = (text) => {
   }
 }
 
-export const verifyChanged = (text) => {
-  return {
-    type: VERIFY_CHANGED,
-    payload: text
-  }
-}
-
 export const loginUser = ({ email, password }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER })
 
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(user => loginUserSuccess(dispatch, user))
+      .then( () => loginUserSuccess(dispatch))
       .catch((error) => {
         console.log(error.code)
         console.log(error.message)
@@ -71,10 +47,9 @@ export const loginUser = ({ email, password }) => {
   }
 }
 
-const loginUserSuccess = (dispatch, user) => {
+const loginUserSuccess = (dispatch) => {
   dispatch({
-    type: LOGIN_USER_SUCCESS,
-    payload:user
+    type: LOGIN_USER_SUCCESS
   })
   NavigationService.navigate('userCheck')
 }
@@ -91,6 +66,7 @@ export const signUserOut = () => {
   return (dispatch) => {
     dispatch({ type: SIGN_USER_OUT })
     firebase.auth().signOut().then(function() {
+      NavigationService.navigate('userCheck')
     }).catch(function(error) {
       console.log(error.code)
       console.log(error.message)
@@ -111,7 +87,7 @@ export const createUser = ({ name, email, password }) => {
           isManager: true,
           email: email
         })
-        createUserSuccess(dispatch, user)
+        createUserSuccess(dispatch)
       })
       .catch((error) => {
         createUserFail(dispatch, error)
@@ -121,10 +97,9 @@ export const createUser = ({ name, email, password }) => {
   }
 }
 
-const createUserSuccess = (dispatch, user) => {
+const createUserSuccess = (dispatch) => {
   dispatch({
-    type: CREATE_USER_SUCCESS,
-    payload:user
+    type: CREATE_USER_SUCCESS
   })
   NavigationService.navigate('userCheck')
 }

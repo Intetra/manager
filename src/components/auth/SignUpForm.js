@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
 import {
-  nameChanged,
-  emailChanged,
-  passwordChanged,
-  verifyChanged,
+  userUpdate,
   loginUser,
   signUserOut,
   createUser,
@@ -15,22 +12,6 @@ import { Card, CardSection, Input, Button, Spinner } from '../common'
 import NavHeader from '../NavHeader'
 
 class SignUpForm extends Component {
-
-  onNameChange(text) {
-    this.props.nameChanged(text)
-  }
-
-  onEmailChange(text) {
-    this.props.emailChanged(text)
-  }
-
-  onPasswordChange(text) {
-    this.props.passwordChanged(text)
-  }
-
-  onVerifyChange(text) {
-    this.props.verifyChanged(text)
-  }
 
   onButtonPress() {
     const { name, email, password, verify, createUser, badVerify } = this.props
@@ -69,6 +50,7 @@ class SignUpForm extends Component {
   }
 
   render() {
+    const { name, email, password, verify, userUpdate } = this.props
     return (
       <View>
         <NavHeader headerText='Sign Up' />
@@ -78,8 +60,10 @@ class SignUpForm extends Component {
           <Input
             label='Name'
             placeholder='Jane'
-            onChangeText={this.onNameChange.bind(this)}
-            value={this.props.name}
+            value={name}
+            onChangeText={ value => {
+              userUpdate({ prop: 'name', value })
+            }}
           />
         </CardSection>
 
@@ -87,8 +71,10 @@ class SignUpForm extends Component {
             <Input
               label='Email'
               placeholder='email@gmail.com'
-              onChangeText={this.onEmailChange.bind(this)}
-              value={this.props.email}
+              value={email}
+              onChangeText={ value => {
+                userUpdate({ prop: 'email', value })
+              }}
             />
           </CardSection>
 
@@ -97,8 +83,10 @@ class SignUpForm extends Component {
               secureTextEntry
               label='Password'
               placeholder='password'
-              onChangeText={this.onPasswordChange.bind(this)}
-              value={this.props.password}
+              value={password}
+              onChangeText={ value => {
+                userUpdate({ prop: 'password', value })
+              }}
             />
           </CardSection>
 
@@ -107,8 +95,10 @@ class SignUpForm extends Component {
               secureTextEntry
               label='Verify'
               placeholder='password'
-              onChangeText={this.onVerifyChange.bind(this)}
-              value={this.props.verify}
+              value={verify}
+              onChangeText={ value => {
+                userUpdate({ prop: 'verify', value })
+              }}
             />
           </CardSection>
 
@@ -138,12 +128,9 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, {
-  emailChanged,
-  passwordChanged,
-  verifyChanged,
+  userUpdate,
   loginUser,
   signUserOut,
   createUser,
-  nameChanged,
   badVerify
 })(SignUpForm)

@@ -9,6 +9,14 @@ import { signUserOut } from '../../actions'
 class EmployeeList extends Component {
 
   render() {
+    const userID = firebase.auth().currentUser.uid
+    const db = firebase.firestore()
+    db.collection('users').doc(userID).collection('employees').get()
+      .then( employees => {
+        employees.forEach( employee => {
+          console.log(employee._document)
+        })
+      })
     return (
       <View>
         <NavHeader headerText='Employee List' />

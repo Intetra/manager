@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
 import {
-  emailChanged,
-  passwordChanged,
+  userUpdate,
   loginUser,
   signUserOut
 } from '../../actions'
@@ -11,14 +10,6 @@ import { Card, CardSection, Input, Button, Spinner } from '../common'
 import NavHeader from '../NavHeader'
 
 class LoginForm extends Component {
-
-  onEmailChange(text) {
-    this.props.emailChanged(text)
-  }
-
-  onPasswordChange(text) {
-    this.props.passwordChanged(text)
-  }
 
   onButtonPress() {
     const { email, password } = this.props
@@ -52,7 +43,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { password, email } = this.props
+    const { email, password, userUpdate } = this.props
     return (
       <View>
         <NavHeader headerText='Login' />
@@ -62,8 +53,10 @@ class LoginForm extends Component {
             <Input
               label='Email'
               placeholder='email@gmail.com'
-              onChangeText={this.onEmailChange.bind(this)}
               value={email}
+              onChangeText={ value => {
+                userUpdate({ prop: 'email', value })
+              }}
             />
           </CardSection>
 
@@ -72,8 +65,10 @@ class LoginForm extends Component {
               secureTextEntry
               label='Password'
               placeholder='password'
-              onChangeText={this.onPasswordChange.bind(this)}
               value={password}
+              onChangeText={ value => {
+                userUpdate({ prop: 'password', value })
+              }}
             />
           </CardSection>
 
@@ -107,8 +102,7 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, {
-  emailChanged,
-  passwordChanged,
+  userUpdate,
   loginUser,
   signUserOut
 })(LoginForm)

@@ -1,26 +1,25 @@
 import React, { Component } from 'react'
-import { View, Text, Picker, Image } from 'react-native'
+import { View } from 'react-native'
 import { connect } from 'react-redux'
+import firebase from '../../Firebase'
 import { Card, CardSection, Input, Button } from '../common'
-import { employeeUpdate } from '../../actions'
+import {
+  employeeUpdate,
+  badVerify,
+  createEmployee } from '../../actions'
 import NavHeader from '../NavHeader'
+
+
 
 class EmployeeCreate extends Component {
 
-  renderPickList() {
-    const days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ]
-    return(
-      days.map( day => {
-        return (
-          <Picker.Item key={day} label={day} value={day} />
-        )
-      })
-    )
+  onPress() {
+
+
   }
 
   render() {
     const { name, phone, employeeUpdate } = this.props
-    const { pickerLabelStyle, pickerHolderStyle } = styles
 
     return (
       <View>
@@ -46,39 +45,13 @@ class EmployeeCreate extends Component {
               }}
             />
           </CardSection>
-          <CardSection style={{ flexDirection: 'column' }}>
-            <Text style={pickerLabelStyle}>Shift</Text>
-            <View style={pickerHolderStyle}>
-              <Picker
-                style={{ flex: 1 }}
-                selectedValue={this.props.shift}
-                onValueChange={ value => employeeUpdate({ prop: 'shift', value })}
-              >
-                {this.renderPickList()}
-              </Picker>
-            </View>
-          </CardSection>
           <CardSection>
-            <Button>Create</Button>
+            <Button onpress={this.onPress()}>Create</Button>
           </CardSection>
         </Card>
       </View>
     )
   }
-}
-
-const styles = {
-  pickerLabelStyle: {
-    fontSize: 18,
-    paddingLeft: 20,
-  },
-  pickerHolderStyle: {
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    position: 'relative',
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
 }
 
 const mapStateToProps = state => {

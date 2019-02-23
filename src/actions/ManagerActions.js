@@ -1,4 +1,7 @@
-import { EMPLOYEE_UPDATE } from './types'
+import firebase from '../Firebase'
+import {
+  EMPLOYEE_UPDATE,
+} from './types'
 
 export const employeeUpdate = ({ prop, value }) => {
   return {
