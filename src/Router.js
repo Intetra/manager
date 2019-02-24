@@ -7,7 +7,6 @@ import {
 import LoginForm from './components/auth/LoginForm'
 import EmployeeList from './components/manager/EmployeeList'
 import SignUpForm from './components/auth/SignUpForm'
-import EmployeeCreate from './components/manager/EmployeeCreate'
 import UserCheck from './UserCheck'
 import AuthNavDrawer from './components/auth/AuthNavDrawer'
 import ManagerNavDrawer from './components/manager/ManagerNavDrawer'
@@ -26,7 +25,6 @@ const AuthRouter = createDrawerNavigator({
 
 const ManagerRouter = createDrawerNavigator({
   employeeList: EmployeeList,
-  employeeCreate: EmployeeCreate,
 },
 {
   headerMode: 'none',

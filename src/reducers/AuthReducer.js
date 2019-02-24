@@ -19,7 +19,9 @@ const INITIAL_STATE = {
   verify: '',
   error: '',
   loading: false,
-  answer: ''
+  answer: '',
+  manager: '',
+  isManager: null
 }
 
 export default (state = INITIAL_STATE, action) => {

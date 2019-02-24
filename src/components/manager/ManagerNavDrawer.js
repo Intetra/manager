@@ -6,12 +6,6 @@ import { signUserOut, clearState } from '../../actions'
 
 class ManagerNavDrawer extends Component {
 
-  onPress(path) {
-    const { navigation, clearState } = this.props
-    clearState()
-    navigation.navigate(path)
-  }
-
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -19,13 +13,8 @@ class ManagerNavDrawer extends Component {
         <Header headerText='Manager Nav' />
         <Card>
           <CardSection>
-            <Button onPress={() => this.onPress('employeeList')}>
+            <Button onPress={() => navigate('employeeList')}>
               Employee List
-            </Button>
-          </CardSection>
-          <CardSection>
-            <Button onPress={() => this.onPress('employeeCreate')}>
-              Create Employee
             </Button>
           </CardSection>
           <CardSection>

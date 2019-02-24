@@ -78,7 +78,7 @@ export const signUserOut = () => {
   }
 }
 
-export const createUser = ({ name, email, password }) => {
+export const createUser = ({ manager='', isManager, name, email, password }) => {
   return (dispatch) => {
     dispatch({ type: CREATE_USER })
 
@@ -86,11 +86,20 @@ export const createUser = ({ name, email, password }) => {
       .then(() => {
         const user = firebase.auth().currentUser
         const userDB = firebase.firestore().collection('users')
-        userDB.doc(user.uid).set({
-          name: name,
-          isManager: true,
-          email: email
-        })
+        if (manager) {
+          userDB.doc(user.uid).set({
+            manager: userDB.doc(manager),
+            isManager,
+            name,
+            email
+          })
+        } else {
+          userDB.doc(user.uid).set({
+            name,
+            isManager,
+            email
+          })
+        }
         createUserSuccess(dispatch)
       })
       .catch((error) => {

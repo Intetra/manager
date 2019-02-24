@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import { connect } from 'react-redux'
 import {
   userUpdate,
@@ -14,9 +14,13 @@ import NavHeader from '../NavHeader'
 class SignUpForm extends Component {
 
   onButtonPress() {
-    const { name, email, password, verify, createUser, badVerify } = this.props
+    const { manager, isManager, name, email, password, verify, createUser, badVerify } = this.props
     if (password === verify) {
-      createUser({ name, email, password })
+      if (typeof isManager === "boolean") {
+        createUser({ manager, isManager, name, email, password })
+      } else {
+        badVerify('Select Employer or Employee')
+      }
     } else {
       badVerify('Passwords dont match.')
     }
@@ -50,17 +54,19 @@ class SignUpForm extends Component {
   }
 
   renderQuestion() {
-    const { userUpdate } = this.props
-    if (!this.props.answer) {
+    const { userUpdate, answer, manager } = this.props
+    const { questionTextStyle, imageStyle } = styles
+    if (!answer) {
       return (
         <Card>
-          <CardSection style={styles.questionTextStyle}>
+          <CardSection style={questionTextStyle}>
             <Text>Are you an employer, or an employee?</Text>
           </CardSection>
           <CardSection>
             <Button
               onPress={() => {
                 userUpdate({ prop: 'answer', value: 'employer' })
+                userUpdate({ prop: 'isManager', value: true })
               }}
             >
               Employer
@@ -68,7 +74,10 @@ class SignUpForm extends Component {
           </CardSection>
           <CardSection>
           <Button
-            onPress={() => userUpdate({ prop: 'answer', value: 'employee' })}
+            onPress={() => {
+              userUpdate({ prop: 'answer', value: 'employee' })
+              userUpdate({ prop: 'isManager', value: false })
+            }}
           >
             Employee
           </Button>
@@ -76,10 +85,34 @@ class SignUpForm extends Component {
         </Card>
       )
     } else {
-      if (this.props.answer === 'employer') {
-        return <Card><CardSection><Text>employer case</Text></CardSection></Card>
-      } else if (this.props.answer === 'employee') {
-        return <Card><CardSection><Text>employee case</Text></CardSection></Card>
+      if (answer === 'employer') {
+        return (
+          <Card>
+            <CardSection style={questionTextStyle}>
+            <Image
+              source={require('../../static/checkmark.png')}
+              style={imageStyle} />
+            </CardSection>
+          </Card>
+        )
+      } else if (answer === 'employee') {
+        return (
+          <Card>
+            <CardSection style={questionTextStyle}>
+              <Text>Please enter your employer's ID</Text>
+            </CardSection>
+            <CardSection>
+              <Input
+                label='ID'
+                placeholder='TskMlaDZHfe4fzYDPhBFm2'
+                value={manager}
+                onChangeText={ value => {
+                  userUpdate({ prop: 'manager', value })
+                }}
+              />
+            </CardSection>
+          </Card>
+        )
       } else {
         return <Card><CardSection><Text>error case</Text></CardSection></Card>
       }
@@ -161,11 +194,15 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center'
   },
+  imageStyle: {
+    width: 50,
+    height: 50
+  }
 }
 
 const mapStateToProps = state => {
-  const { name, email, password, verify, error, loading, answer } = state.auth
-  return { name, email, password, verify, error, loading, answer }
+  const { name, email, password, verify, error, loading, answer, manager, isManager } = state.auth
+  return { name, email, password, verify, error, loading, answer, manager, isManager }
 }
 
 export default connect(mapStateToProps, {

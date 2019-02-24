@@ -1,11 +1,36 @@
 import firebase from '../Firebase'
 import {
-  EMPLOYEE_UPDATE,
+  GET_EMPLOYEES,
+  GET_EMPLOYEES_SUCCESS,
+  GET_EMPLOYEES_FAIL
 } from './types'
 
-export const employeeUpdate = ({ prop, value }) => {
-  return {
-    type: EMPLOYEE_UPDATE,
-    payload: { prop, value }
+export const getEmployees = () => {
+  return (dispatch) => {
+    dispatch({ type: GET_EMPLOYEES })
+
+    let employeeArray = []
+    const userID = firebase.auth().currentUser.uid
+    const userDB = firebase.firestore().collection('users')
+    userDB.where('manager', '==', userDB.doc(userID)).get()
+      .then( employees => {
+        employees.forEach( employee => {
+          employeeArray.push(employee.data())
+        })
+        getEmployeesSuccess(dispatch, employeeArray)
+      })
   }
+}
+
+const getEmployeesSuccess = (dispatch, employees) => {
+    dispatch({
+      type: GET_EMPLOYEES_SUCCESS,
+      payload: employees
+    })
+}
+
+const getEmployeesFail = (dispatch) => {
+    dispatch({
+      type: GET_EMPLOYEES_FAIL
+    })
 }
