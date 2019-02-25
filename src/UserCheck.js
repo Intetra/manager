@@ -18,22 +18,27 @@ class UserCheck extends React.Component {
       if (user) {
         //user is logged in
         //query database for a user entry with the logged in user's ID
-        userDB.doc(user.uid).get().then( dbUser => {
-          if (dbUser) {
-            //user exists in database
-            if (dbUser.data().isManager) {
-              //user is a manager
-              navigate('manager')
+        userDB.doc(user.uid).get()
+          .then( dbUser => {
+            if (dbUser) {
+              //user exists in database
+              if (dbUser.data().isManager) {
+                //user is a manager
+                navigate('manager')
+              } else {
+                //user is not a manager
+                navigate('employee')
+              }
             } else {
-              //user is not a manager
-              navigate('employee')
+              //user exists in auth, but not database
+              console.log('USER EXISTS IN AUTH, BUT NOT IN DATABASE')
+              signUserOut()
             }
-          } else {
-            //user exists in auth, but not database
-            console.log('USER EXISTS IN AUTH, BUT NOT IN DATABASE')
-            signUserOut()
-          }
-        })
+          })
+          .catch( error => {
+            console.log(error.code)
+            console.log(error.message)
+          })
       } else {
         //no logged in user
         navigate('auth')

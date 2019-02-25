@@ -14,10 +14,10 @@ import NavHeader from '../NavHeader'
 class SignUpForm extends Component {
 
   onButtonPress() {
-    const { manager, isManager, name, email, password, verify, createUser, badVerify } = this.props
+    const { manager, isManager, managerID, firstName, lastName, email, password, verify, createUser, badVerify } = this.props
     if (password === verify) {
       if (typeof isManager === "boolean") {
-        createUser({ manager, isManager, name, email, password })
+        createUser({ manager, isManager, managerID, firstName, lastName, email, password })
       } else {
         badVerify('Select Employer or Employee')
       }
@@ -54,8 +54,8 @@ class SignUpForm extends Component {
   }
 
   renderQuestion() {
-    const { userUpdate, answer, manager } = this.props
-    const { questionTextStyle, imageStyle } = styles
+    const { userUpdate, answer, manager, managerID } = this.props
+    const { questionTextStyle } = styles
     if (!answer) {
       return (
         <Card>
@@ -89,9 +89,17 @@ class SignUpForm extends Component {
         return (
           <Card>
             <CardSection style={questionTextStyle}>
-            <Image
-              source={require('../../static/checkmark.png')}
-              style={imageStyle} />
+              <Text>Choose an employer ID</Text>
+            </CardSection>
+            <CardSection>
+              <Input
+                label='ID'
+                placeholder="Alice's Restaurant #3"
+                value={managerID}
+                onChangeText={ value => {
+                  userUpdate({ prop: 'managerID', value })
+                }}
+              />
             </CardSection>
           </Card>
         )
@@ -104,7 +112,7 @@ class SignUpForm extends Component {
             <CardSection>
               <Input
                 label='ID'
-                placeholder='TskMlaDZHfe4fzYDPhBFm2'
+                placeholder="Alice's Restaurant #3"
                 value={manager}
                 onChangeText={ value => {
                   userUpdate({ prop: 'manager', value })
@@ -120,7 +128,7 @@ class SignUpForm extends Component {
   }
 
   render() {
-    const { name, email, password, verify, userUpdate } = this.props
+    const { firstName, lastName, email, password, verify, userUpdate } = this.props
     return (
       <View>
         <NavHeader headerText='Sign Up' />
@@ -128,11 +136,22 @@ class SignUpForm extends Component {
         <Card>
           <CardSection>
             <Input
-              label='Name'
+              label='First Name'
               placeholder='Jane'
-              value={name}
+              value={firstName}
               onChangeText={ value => {
-                userUpdate({ prop: 'name', value })
+                userUpdate({ prop: 'firstName', value })
+              }}
+            />
+          </CardSection>
+
+          <CardSection>
+            <Input
+              label='Last Name'
+              placeholder='Smith'
+              value={lastName}
+              onChangeText={ value => {
+                userUpdate({ prop: 'lastName', value })
               }}
             />
           </CardSection>
@@ -191,18 +210,39 @@ const styles = {
     color: 'red'
   },
   questionTextStyle: {
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   },
-  imageStyle: {
-    width: 50,
-    height: 50
-  }
 }
 
 const mapStateToProps = state => {
-  const { name, email, password, verify, error, loading, answer, manager, isManager } = state.auth
-  return { name, email, password, verify, error, loading, answer, manager, isManager }
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    verify,
+    error,
+    loading,
+    answer,
+    manager,
+    isManager,
+    managerID
+  } = state.auth
+  return {
+    firstName,
+    lastName,
+    email,
+    password,
+    verify,
+    error,
+    loading,
+    answer,
+    manager,
+    isManager,
+    managerID
+  }
 }
 
 export default connect(mapStateToProps, {

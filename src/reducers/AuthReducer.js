@@ -13,7 +13,8 @@ import {
   from '../actions/types'
 
 const INITIAL_STATE = {
-  name: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
   verify: '',
@@ -21,7 +22,8 @@ const INITIAL_STATE = {
   loading: false,
   answer: '',
   manager: '',
-  isManager: null
+  isManager: null,
+  managerID: ''
 }
 
 export default (state = INITIAL_STATE, action) => {

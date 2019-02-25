@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { Card, CardSection } from '../common'
+import { Card, CardSection, Button } from '../common'
 import NavHeader from '../NavHeader'
 import firebase from '../../Firebase'
 import { signUserOut, getEmployees } from '../../actions'
@@ -18,7 +18,9 @@ class EmployeeList extends Component {
       <Card>
         {employees.map( (employee) =>
           <CardSection key={employee.email}>
-            <Text>{employee.name}</Text>
+            <Button style={styles.employeeButtonStyle}>
+              <Text>{employee.name}</Text>
+            </Button>
           </CardSection>
         )}
       </Card>
@@ -32,6 +34,11 @@ class EmployeeList extends Component {
           {this.renderList()}
       </View>
     )
+  }
+}
+
+const styles = {
+  employeeButtonStyle: {
   }
 }
 

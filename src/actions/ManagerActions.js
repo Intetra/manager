@@ -19,6 +19,11 @@ export const getEmployees = () => {
         })
         getEmployeesSuccess(dispatch, employeeArray)
       })
+      .catch( error => {
+        console.log(error.code)
+        console.log(error.message)
+        getEmployeesFail(dispatch)
+      })
   }
 }
 
