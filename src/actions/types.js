@@ -14,3 +14,11 @@ export const CLEAR_STATE = 'clear_state'
 export const GET_EMPLOYEES = 'get_employees'
 export const GET_EMPLOYEES_SUCCESS = 'get_employees_success'
 export const GET_EMPLOYEES_FAIL = 'get_employees_fail'
+export const GET_EMPLOYER_ID = 'get_employer_id'
+export const GET_EMPLOYER_ID_SUCCESS = 'get_employer_id_success'
+export const GET_EMPLOYER_ID_FAIL = 'get_employer_id_fail'
+export const SELECT_EMPLOYEE = 'select_employee'
+
+//schedule types
+export const CREATE_SCHEDULE = 'create_schedule'
+export const DAY_SELECT = 'day_select'

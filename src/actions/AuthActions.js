@@ -95,14 +95,28 @@ export const createUser = ({
         const user = firebase.auth().currentUser
         const userDB = firebase.firestore().collection('users')
         if (manager) {
-          console.log('here|||' + userDB.doc(manager).id)
-          userDB.doc(user.uid).set({
-            manager: userDB.doc(manager),
-            isManager,
-            firstName,
-            lastName,
-            email
-          })
+          userDB.where('managerID', '==', manager).get()
+            .then ( snapshot => {
+              snapshot.forEach( doc => {
+                const employer = doc.id
+                userDB.doc(user.uid).set({
+                  manager: userDB.doc(employer),
+                  isManager,
+                  firstName,
+                  lastName,
+                  email
+                })
+                  .then(
+                    createUserSuccess(dispatch)
+                  )
+              })
+            })
+            .catch( error => {
+              console.log('inside createUser')
+              console.log(error.code)
+              console.log(error.message)
+            })
+
         } else {
           userDB.doc(user.uid).set({
             firstName,
@@ -111,8 +125,10 @@ export const createUser = ({
             email,
             managerID
           })
+            .then(
+              createUserSuccess(dispatch)
+            )
         }
-        createUserSuccess(dispatch)
       })
       .catch((error) => {
         createUserFail(dispatch, error)

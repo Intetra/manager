@@ -18,6 +18,11 @@ class ManagerNavDrawer extends Component {
             </Button>
           </CardSection>
           <CardSection>
+            <Button onPress={() => navigate('createSchedule')}>
+              Create Schedule
+            </Button>
+          </CardSection>
+          <CardSection>
             <Button onPress={() => this.props.signUserOut()}>
               Sign Out
             </Button>

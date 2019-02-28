@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
+import { connect } from 'react-redux'
 import { Card, CardSection } from '../common'
-import Header from '../common'
+import NavHeader from '../NavHeader'
 
-class EmployeeList extends Component {
+class EmployeeDetail extends Component {
 
   render() {
-    const { name, email } = this.props
+    const { firstName, lastName, email, } = this.props.selectedEmployee
     return (
       <View>
-        <Header headerText='Employee Detail' />
+        <NavHeader headerText='Employee Detail' />
         <Card>
           <CardSection>
-            <Text>{name}</Text>
+            <Text>{firstName + ' ' + lastName}</Text>
           </CardSection>
           <CardSection>
             <Text>{email}</Text>
@@ -23,4 +24,9 @@ class EmployeeList extends Component {
   }
 }
 
-export default EmployeeList
+const mapStateToProps = state => {
+  const { selectedEmployee } = state.manager
+  return { selectedEmployee }
+}
+
+export default connect(mapStateToProps, {})(EmployeeDetail)

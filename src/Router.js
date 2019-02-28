@@ -6,6 +6,8 @@ import {
 } from 'react-navigation'
 import LoginForm from './components/auth/LoginForm'
 import EmployeeList from './components/manager/EmployeeList'
+import EmployeeDetail from './components/manager/EmployeeDetail'
+import CreateSchedule from './components/manager/CreateSchedule'
 import SignUpForm from './components/auth/SignUpForm'
 import UserCheck from './UserCheck'
 import AuthNavDrawer from './components/auth/AuthNavDrawer'
@@ -25,6 +27,8 @@ const AuthRouter = createDrawerNavigator({
 
 const ManagerRouter = createDrawerNavigator({
   employeeList: EmployeeList,
+  employeeDetail: EmployeeDetail,
+  createSchedule: CreateSchedule
 },
 {
   headerMode: 'none',

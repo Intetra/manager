@@ -20,7 +20,7 @@ class UserCheck extends React.Component {
         //query database for a user entry with the logged in user's ID
         userDB.doc(user.uid).get()
           .then( dbUser => {
-            if (dbUser) {
+            if (dbUser.data()) {
               //user exists in database
               if (dbUser.data().isManager) {
                 //user is a manager
